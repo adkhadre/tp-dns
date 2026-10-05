@@ -43,4 +43,9 @@ public class AdresseIP {
 
         return true;
     }
+    
+    @Override
+    public String toString() {
+        return adresse;
+    }
 }
