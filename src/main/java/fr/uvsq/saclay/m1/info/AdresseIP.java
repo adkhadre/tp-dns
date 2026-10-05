@@ -25,6 +25,22 @@ public class AdresseIP {
 
         String[] parties = adresse.split("\\.", -1);
 
-        return parties.length == 4;
+        if (parties.length != 4) {
+            return false;
+        }
+
+        for (String partie : parties) {
+            try {
+                int nombre = Integer.parseInt(partie);
+
+                if (nombre < 0 || nombre > 255) {
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
