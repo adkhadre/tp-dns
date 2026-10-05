@@ -43,9 +43,29 @@ public class AdresseIP {
 
         return true;
     }
-    
+
     @Override
     public String toString() {
         return adresse;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof AdresseIP)) {
+            return false;
+        }
+
+        AdresseIP autre = (AdresseIP) obj;
+
+        return adresse.equals(autre.adresse);
+    }
+
+    @Override
+    public int hashCode() {
+        return adresse.hashCode();
     }
 }
