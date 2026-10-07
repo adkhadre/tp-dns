@@ -2,6 +2,7 @@ package fr.uvsq.saclay.m1.info;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 /**
  Représente une base de données DNS.
@@ -70,5 +71,25 @@ public class Dns {
         }
 
         return null;
+    }
+    /**
+     * Recherche les associations appartenant à un domaine.
+     *
+     * @param domaine le domaine recherché
+     * @return la liste des associations du domaine, triées par nom de machine
+     */
+    public List<DnsItem> getItems(String domaine) {
+        List<DnsItem> resultat = new ArrayList<>();
+
+        for (DnsItem item : items) {
+            if (item.getNomMachine().getDomaine().equals(domaine)) {
+                resultat.add(item);
+            }
+        }
+
+        resultat.sort(Comparator.comparing(
+                item -> item.getNomMachine().getNomMachine()));
+
+        return resultat;
     }
 }

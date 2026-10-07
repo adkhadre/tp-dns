@@ -2,6 +2,7 @@ package fr.uvsq.saclay.m1.info;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -148,5 +149,17 @@ class DnsTest {
         assertEquals(2, resultat.size());
         assertEquals(item2, resultat.get(0));
         assertEquals(item1, resultat.get(1));
+    }
+    @Test
+    void rechercheParDomaineInconnuDoitRetournerUneListeVide() {
+        Dns dns = new Dns();
+
+        dns.addItem(new DnsItem(
+                new AdresseIP("192.168.0.1"),
+                new NomMachine("www.domaine.local")));
+
+        List<DnsItem> resultat = dns.getItems("inconnu.local");
+
+        assertEquals(0, resultat.size());
     }
 }
