@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Représente une base de données DNS.
+ Représente une base de données DNS.
  */
 public class Dns {
 
@@ -19,10 +19,7 @@ public class Dns {
         return items.size();
     }
     /**
-     * Ajoute une association DNS.
-     *
-     * @param item l'association à ajouter
-     * @throws IllegalArgumentException si l'association existe déjà
+      Ajoute une association DNS.
      */
     public void addItem(DnsItem item) {
         if (item == null) {
@@ -43,5 +40,35 @@ public class Dns {
         }
 
         items.add(item);
+    }
+
+    /**
+     * Recherche par adresse Ip
+     * @param adresseIP
+     * @return
+     */
+    public DnsItem getItem(AdresseIP adresseIP) {
+        for (DnsItem item : items) {
+            if (item.getAdresseIP().equals(adresseIP)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Recherche par nom Machine
+     * @param nomMachine
+     * @return
+     */
+    public DnsItem getItem(NomMachine nomMachine) {
+        for (DnsItem item : items) {
+            if (item.getNomMachine().equals(nomMachine)) {
+                return item;
+            }
+        }
+
+        return null;
     }
 }
