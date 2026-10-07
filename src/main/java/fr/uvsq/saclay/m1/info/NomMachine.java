@@ -9,7 +9,7 @@ public class NomMachine {
 
 
     public NomMachine(String nom) {
-        if (nom == null || nom.isEmpty() || !nom.contains(".")) {
+        if (nom == null || !nom.contains(".")) {
             throw new IllegalArgumentException(
                     "Le nom de machine doit être qualifié.");
         }
@@ -35,14 +35,29 @@ public class NomMachine {
         int position = nom.indexOf('.');
         return nom.substring(position + 1);
     }
-
-    /**
-     * Retourne le nom qualifié complet.
-     *
-     * @return le nom qualifié
-     */
     @Override
     public String toString() {
         return nom;
+    }
+    /**
+      Compare ce nom de machine avec un autre objet.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof NomMachine)) {
+            return false;
+        }
+
+        NomMachine autre = (NomMachine) obj;
+
+        return nom.equals(autre.nom);
+    }
+    @Override
+    public int hashCode() {
+        return nom.hashCode();
     }
 }
