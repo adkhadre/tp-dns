@@ -18,6 +18,7 @@ public class AdresseIP {
         }
         this.adresse = adresse;
     }
+
     private boolean estValide(String adresse) {
         if (adresse == null) {
             return false;
