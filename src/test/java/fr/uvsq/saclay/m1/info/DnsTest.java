@@ -72,4 +72,55 @@ class DnsTest {
 
         assertEquals(2, dns.taille());
     }
+    @Test
+    void rechercheParAdresseIPDoitRetournerLeBonItem() {
+        Dns dns = new Dns();
+
+        DnsItem item = new DnsItem(
+                new AdresseIP("192.168.0.1"),
+                new NomMachine("machine.domaine.local"));
+
+        dns.addItem(item);
+
+        assertEquals(item,
+                dns.getItem(new AdresseIP("192.168.0.1")));
+    }
+
+    @Test
+    void rechercheParNomMachineDoitRetournerLeBonItem() {
+        Dns dns = new Dns();
+
+        DnsItem item = new DnsItem(
+                new AdresseIP("192.168.0.1"),
+                new NomMachine("machine.domaine.local"));
+
+        dns.addItem(item);
+
+        assertEquals(item,
+                dns.getItem(new NomMachine("machine.domaine.local")));
+    }
+
+    @Test
+    void rechercheParAdresseIPInconnueDoitRetournerNull() {
+        Dns dns = new Dns();
+
+        dns.addItem(new DnsItem(
+                new AdresseIP("192.168.0.1"),
+                new NomMachine("machine.domaine.local")));
+
+        assertEquals(null,
+                dns.getItem(new AdresseIP("192.168.0.2")));
+    }
+
+    @Test
+    void rechercheParNomMachineInconnuDoitRetournerNull() {
+        Dns dns = new Dns();
+
+        dns.addItem(new DnsItem(
+                new AdresseIP("192.168.0.1"),
+                new NomMachine("machine.domaine.local")));
+
+        assertEquals(null,
+                dns.getItem(new NomMachine("autre.domaine.local")));
+    }
 }
