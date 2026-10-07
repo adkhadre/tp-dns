@@ -3,17 +3,52 @@ package fr.uvsq.saclay.m1.info;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.nio.file.Path;
+
 
 /**
  Représente une base de données DNS.
  */
 public class Dns {
 
+
     private final List<DnsItem> items;
+    private final Path fichierDns;
 
 
     public Dns() {
         items = new ArrayList<>();
+        fichierDns = chargerConfiguration();
+    }
+    private Path chargerConfiguration() {
+        Properties properties = new Properties();
+
+        try (InputStream input = getClass().getClassLoader()
+                .getResourceAsStream("config.properties")) {
+
+            if (input == null) {
+                throw new IllegalStateException(
+                        "Le fichier config.properties est introuvable.");
+            }
+
+            properties.load(input);
+
+            String nomFichier = properties.getProperty("dns.file");
+
+            if (nomFichier == null || nomFichier.isEmpty()) {
+                throw new IllegalStateException(
+                        "La propriété dns.file est absente.");
+            }
+
+            return Path.of(nomFichier);
+
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "Impossible de lire la configuration.", e);
+        }
     }
 
     public int taille() {
