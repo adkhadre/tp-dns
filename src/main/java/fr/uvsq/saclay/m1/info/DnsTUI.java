@@ -89,6 +89,13 @@ public class DnsTUI {
         if (resultat instanceof DnsItem) {
             DnsItem item = (DnsItem) resultat;
             System.out.println(item.getAdresseIP());
+        } else if (resultat instanceof List<?>) {
+            List<?> resultats = (List<?>) resultat;
+
+            for (Object element : resultats) {
+                DnsItem item = (DnsItem) element;
+                System.out.println(item);
+            }
         }
     }
 }

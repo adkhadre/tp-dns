@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
@@ -118,6 +119,43 @@ class DnsTUITest {
 
         assertEquals(
                 "193.51.31.90" + System.lineSeparator(),
+                sortie.toString(StandardCharsets.UTF_8));
+    }
+    @Test
+    void afficheDoitAfficherUneListeDeMachines() {
+        Path fichierDns = dossierTemporaire.resolve("dns.txt");
+        Dns dns = new Dns(fichierDns);
+
+        Scanner scanner = new Scanner(
+                new ByteArrayInputStream(
+                        "\n".getBytes(StandardCharsets.UTF_8)));
+
+        DnsTUI tui = new DnsTUI(dns, scanner);
+
+        DnsItem item1 = new DnsItem(
+                new AdresseIP("193.51.25.12"),
+                new NomMachine("ecampus.uvsq.fr"));
+
+        DnsItem item2 = new DnsItem(
+                new AdresseIP("193.51.31.90"),
+                new NomMachine("www.uvsq.fr"));
+
+        List<DnsItem> resultats = List.of(item1, item2);
+
+        ByteArrayOutputStream sortie = new ByteArrayOutputStream();
+        PrintStream ancienneSortie = System.out;
+
+        System.setOut(new PrintStream(sortie));
+
+        tui.affiche(resultats);
+
+        System.setOut(ancienneSortie);
+
+        assertEquals(
+                "193.51.25.12 ecampus.uvsq.fr"
+                        + System.lineSeparator()
+                        + "193.51.31.90 www.uvsq.fr"
+                        + System.lineSeparator(),
                 sortie.toString(StandardCharsets.UTF_8));
     }
 }
