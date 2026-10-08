@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.nio.file.Path;
+import java.nio.file.Files;
+
 
 
 /**
@@ -22,6 +24,12 @@ public class Dns {
     public Dns() {
         items = new ArrayList<>();
         fichierDns = chargerConfiguration();
+        chargerBase();
+    }
+    public Dns(Path fichierDns) {
+        items = new ArrayList<>();
+        this.fichierDns = fichierDns;
+        chargerBase();
     }
     private Path chargerConfiguration() {
         Properties properties = new Properties();
@@ -50,6 +58,42 @@ public class Dns {
                     "Impossible de lire la configuration.", e);
         }
     }
+    /**
+     * Charge la base DNS depuis le fichier.
+     */
+    private void chargerBase() {
+        try {
+            if (!Files.exists(fichierDns)) {
+                Files.createFile(fichierDns);
+                return;
+            }
+
+            List<String> lignes = Files.readAllLines(fichierDns);
+
+            for (String ligne : lignes) {
+                if (ligne.isBlank()) {
+                    continue;
+                }
+
+                String[] parties = ligne.trim().split("\\s+");
+
+                if (parties.length != 2) {
+                    throw new IllegalStateException(
+                            "Ligne invalide dans la base DNS : " + ligne);
+                }
+
+                AdresseIP adresseIP = new AdresseIP(parties[0]);
+                NomMachine nomMachine = new NomMachine(parties[1]);
+
+                items.add(new DnsItem(adresseIP, nomMachine));
+            }
+
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "Impossible de lire la base DNS.", e);
+        }
+    }
+
 
     public int taille() {
         return items.size();
