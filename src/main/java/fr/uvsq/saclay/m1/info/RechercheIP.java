@@ -27,6 +27,12 @@ public class RechercheIP implements Commande {
      */
     @Override
     public Object execute() {
-        return dns.getItem(nomMachine);
+        DnsItem item = dns.getItem(nomMachine);
+
+        if (item == null) {
+            return null;
+        }
+
+        return item.getAdresseIP();
     }
 }

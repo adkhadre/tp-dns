@@ -16,7 +16,7 @@ class RechercheIPTest {
     Path dossierTemporaire;
 
     @Test
-    void rechercheIPDoitRetournerLeBonItem() {
+    void rechercheIPDoitRetournerLaBonneAdresseIP() {
         Path fichierDns = dossierTemporaire.resolve("dns.txt");
         Dns dns = new Dns(fichierDns);
 
@@ -30,6 +30,8 @@ class RechercheIPTest {
                 dns,
                 new NomMachine("machine.domaine.local"));
 
-        assertEquals(item, commande.execute());
+        assertEquals(
+                new AdresseIP("192.168.0.1"),
+                commande.execute());
     }
 }
