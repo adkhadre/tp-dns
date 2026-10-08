@@ -198,4 +198,26 @@ class DnsTest {
                 item,
                 dnsRecharge.getItem(new AdresseIP("192.168.0.10")));
     }
+    @Test
+    void rechercheParDomaineAvecTriParAdresseIP() {
+        Dns dns = new Dns(nouveauFichierDns());
+
+        DnsItem item1 = new DnsItem(
+                new AdresseIP("192.168.0.10"),
+                new NomMachine("www.domaine.local"));
+
+        DnsItem item2 = new DnsItem(
+                new AdresseIP("192.168.0.2"),
+                new NomMachine("mail.domaine.local"));
+
+        dns.addItem(item1);
+        dns.addItem(item2);
+
+        List<DnsItem> resultat =
+                dns.getItems("domaine.local", true);
+
+        assertEquals(2, resultat.size());
+        assertEquals(item2, resultat.get(0));
+        assertEquals(item1, resultat.get(1));
+    }
 }

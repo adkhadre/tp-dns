@@ -170,9 +170,22 @@ public class Dns {
      * Recherche les associations appartenant à un domaine.
      *
      * @param domaine le domaine recherché
-     * @return la liste des associations du domaine, triées par nom de machine
+     * @return les associations triées par nom de machine
      */
     public List<DnsItem> getItems(String domaine) {
+        return getItems(domaine, false);
+    }
+
+    /**
+     * Recherche les associations appartenant à un domaine.
+     *
+     * @param domaine le domaine recherché
+     * @param triParAdresseIP true pour trier par adresse IP
+     * @return les associations du domaine
+     */
+    public List<DnsItem> getItems(
+            String domaine, boolean triParAdresseIP) {
+
         List<DnsItem> resultat = new ArrayList<>();
 
         for (DnsItem item : items) {
@@ -181,8 +194,15 @@ public class Dns {
             }
         }
 
-        resultat.sort(Comparator.comparing(
-                item -> item.getNomMachine().getNomMachine()));
+        if (triParAdresseIP) {
+            resultat.sort(
+                    (item1, item2) -> item1.getAdresseIP()
+                            .compareTo(item2.getAdresseIP()));
+        } else {
+            resultat.sort(
+                    Comparator.comparing(
+                            item -> item.getNomMachine().getNomMachine()));
+        }
 
         return resultat;
     }
