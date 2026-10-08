@@ -1,6 +1,7 @@
 package fr.uvsq.saclay.m1.info;
 
 import java.util.Scanner;
+import java.util.List;
 
 /**
  * Interface utilisateur textuelle du DNS.
@@ -36,6 +37,34 @@ public class DnsTUI {
      */
     public Commande nextCommande() {
         String ligne = scanner.nextLine().trim();
+        if (ligne.startsWith("add ")) {
+            String[] parties = ligne.split("\\s+");
+
+            AdresseIP adresseIP = new AdresseIP(parties[1]);
+            NomMachine nomMachine = new NomMachine(parties[2]);
+
+            DnsItem item = new DnsItem(adresseIP, nomMachine);
+
+            return new AjoutDns(dns, item);
+        }
+
+        if (ligne.startsWith("ls -a ")) {
+            String domaine = ligne.substring(5).trim();
+
+            return new RechercheDomaine(
+                    dns,
+                    domaine,
+                    true);
+        }
+
+        if (ligne.startsWith("ls ")) {
+            String domaine = ligne.substring(3).trim();
+
+            return new RechercheDomaine(
+                    dns,
+                    domaine,
+                    false);
+        }
 
         if (ligne.matches("\\d+\\.\\d+\\.\\d+\\.\\d+")) {
             return new RechercheNom(
@@ -43,6 +72,23 @@ public class DnsTUI {
                     new AdresseIP(ligne));
         }
 
+        if (ligne.contains(".")) {
+            return new RechercheIP(
+                    dns,
+                    new NomMachine(ligne));
+        }
+
         return null;
+    }
+    /**
+     * Affiche le résultat d'une commande.
+     *
+     * @param resultat le résultat à afficher
+     */
+    public void affiche(Object resultat) {
+        if (resultat instanceof DnsItem) {
+            DnsItem item = (DnsItem) resultat;
+            System.out.println(item.getAdresseIP());
+        }
     }
 }
