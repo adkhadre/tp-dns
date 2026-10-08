@@ -181,4 +181,21 @@ class DnsTest {
 
         assertEquals(0, resultat.size());
     }
+    @Test
+    void uneAssociationAjouteeDoitEtreSauvegardeeDansLeFichier() {
+        Dns dns = new Dns(nouveauFichierDns());
+
+        DnsItem item = new DnsItem(
+                new AdresseIP("192.168.0.10"),
+                new NomMachine("machine.test.local"));
+
+        dns.addItem(item);
+
+        Dns dnsRecharge = new Dns(nouveauFichierDns());
+
+        assertEquals(1, dnsRecharge.taille());
+        assertEquals(
+                item,
+                dnsRecharge.getItem(new AdresseIP("192.168.0.10")));
+    }
 }

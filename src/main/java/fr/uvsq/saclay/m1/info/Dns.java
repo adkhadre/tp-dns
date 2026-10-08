@@ -99,7 +99,9 @@ public class Dns {
         return items.size();
     }
     /**
-      Ajoute une association DNS.
+     * Ajoute une association DNS et la sauvegarde dans le fichier.
+     *
+     * @param item l'association à ajouter
      */
     public void addItem(DnsItem item) {
         if (item == null) {
@@ -120,6 +122,19 @@ public class Dns {
         }
 
         items.add(item);
+
+        try {
+            List<String> lignes = new ArrayList<>();
+
+            for (DnsItem element : items) {
+                lignes.add(element.toString());
+            }
+
+            Files.write(fichierDns, lignes);
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "Impossible de sauvegarder la base DNS.", e);
+        }
     }
 
     /**
