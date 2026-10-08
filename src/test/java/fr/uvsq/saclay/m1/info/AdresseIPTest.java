@@ -3,6 +3,7 @@ package fr.uvsq.saclay.m1.info;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -103,5 +104,13 @@ class AdresseIPTest {
         AdresseIP adresse2 = new AdresseIP("192.168.1.2");
 
         assertNotEquals(adresse1, adresse2);
+    }
+    @Test
+    void uneAdresseIPDoitPouvoirEtreComparee() {
+        AdresseIP ip1 = new AdresseIP("192.168.0.2");
+        AdresseIP ip2 = new AdresseIP("192.168.0.10");
+
+        assertTrue(ip1.compareTo(ip2) < 0);
+        assertTrue(ip2.compareTo(ip1) > 0);
     }
 }

@@ -44,6 +44,31 @@ public class AdresseIP {
 
         return true;
     }
+    /**
+     * Compare cette adresse IP avec une autre.
+     *
+     * @param autre l'autre adresse IP
+     * @return un nombre négatif, zéro ou positif
+     */
+    public int compareTo(AdresseIP autre) {
+        String[] partiesCetteAdresse = adresse.split("\\.");
+        String[] partiesAutreAdresse = autre.adresse.split("\\.");
+
+        for (int i = 0; i < 4; i++) {
+            int partieCetteAdresse =
+                    Integer.parseInt(partiesCetteAdresse[i]);
+            int partieAutreAdresse =
+                    Integer.parseInt(partiesAutreAdresse[i]);
+
+            if (partieCetteAdresse != partieAutreAdresse) {
+                return Integer.compare(
+                        partieCetteAdresse,
+                        partieAutreAdresse);
+            }
+        }
+
+        return 0;
+    }
 
     @Override
     public String toString() {
