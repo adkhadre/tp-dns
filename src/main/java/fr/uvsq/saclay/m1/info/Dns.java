@@ -112,12 +112,12 @@ public class Dns {
         for (DnsItem element : items) {
             if (element.getAdresseIP().equals(item.getAdresseIP())) {
                 throw new IllegalArgumentException(
-                        "Cette adresse IP existe déjà.");
+                        "Cette adresse IP existe déjà !");
             }
 
             if (element.getNomMachine().equals(item.getNomMachine())) {
                 throw new IllegalArgumentException(
-                        "Ce nom de machine existe déjà.");
+                        "Ce nom de machine existe déjà !");
             }
         }
 
