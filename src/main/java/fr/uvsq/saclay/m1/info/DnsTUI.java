@@ -86,9 +86,10 @@ public class DnsTUI {
      * @param resultat le résultat à afficher
      */
     public void affiche(Object resultat) {
-        if (resultat instanceof DnsItem) {
-            DnsItem item = (DnsItem) resultat;
-            System.out.println(item.getAdresseIP());
+        if (resultat instanceof AdresseIP) {
+            System.out.println(resultat);
+        } else if (resultat instanceof NomMachine) {
+            System.out.println(resultat);
         } else if (resultat instanceof List<?>) {
             List<?> resultats = (List<?>) resultat;
 

@@ -93,33 +93,48 @@ class DnsTUITest {
                         new NomMachine("machine.test.local")),
                 dns.getItem(new AdresseIP("192.168.0.10")));
     }
+
     @Test
     void afficheDoitAfficherLAdresseIP() {
-        Path fichierDns = dossierTemporaire.resolve("dns.txt");
-        Dns dns = new Dns(fichierDns);
-
-        Scanner scanner = new Scanner(
-                new ByteArrayInputStream(
-                        "\n".getBytes(StandardCharsets.UTF_8)));
-
-        DnsTUI tui = new DnsTUI(dns, scanner);
-
-        DnsItem item = new DnsItem(
-                new AdresseIP("193.51.31.90"),
-                new NomMachine("www.uvsq.fr"));
-
         ByteArrayOutputStream sortie = new ByteArrayOutputStream();
         PrintStream ancienneSortie = System.out;
 
         System.setOut(new PrintStream(sortie));
 
-        tui.affiche(item);
+        try {
+            DnsTUI tui = new DnsTUI(
+                    new Dns(
+                            dossierTemporaire.resolve("dns.txt")));
 
-        System.setOut(ancienneSortie);
+            tui.affiche(new AdresseIP("193.51.31.90"));
+        } finally {
+            System.setOut(ancienneSortie);
+        }
 
         assertEquals(
                 "193.51.31.90" + System.lineSeparator(),
-                sortie.toString(StandardCharsets.UTF_8));
+                sortie.toString());
+    }
+    @Test
+    void afficheDoitAfficherLeNomMachine() {
+        ByteArrayOutputStream sortie = new ByteArrayOutputStream();
+        PrintStream ancienneSortie = System.out;
+
+        System.setOut(new PrintStream(sortie));
+
+        try {
+            DnsTUI tui = new DnsTUI(
+                    new Dns(
+                            dossierTemporaire.resolve("dns.txt")));
+
+            tui.affiche(new NomMachine("www.uvsq.fr"));
+        } finally {
+            System.setOut(ancienneSortie);
+        }
+
+        assertEquals(
+                "www.uvsq.fr" + System.lineSeparator(),
+                sortie.toString());
     }
     @Test
     void afficheDoitAfficherUneListeDeMachines() {
