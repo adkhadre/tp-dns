@@ -1,8 +1,5 @@
 package fr.uvsq.saclay.m1.info;
 
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,6 +10,8 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests de l'interface utilisateur DNS.
@@ -172,5 +171,17 @@ class DnsTUITest {
                         + "193.51.31.90 www.uvsq.fr"
                         + System.lineSeparator(),
                 sortie.toString(StandardCharsets.UTF_8));
+    }
+    @Test
+    void quitDoitRetournerUneCommandeQuitter() {
+        Scanner scanner = new Scanner("quit\n");
+
+        DnsTUI tui = new DnsTUI(
+                new Dns(dossierTemporaire.resolve("dns.txt")),
+                scanner);
+
+        Commande commande = tui.nextCommande();
+
+        assertTrue(commande instanceof Quitter);
     }
 }

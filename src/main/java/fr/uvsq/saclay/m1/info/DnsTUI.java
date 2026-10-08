@@ -37,6 +37,9 @@ public class DnsTUI {
      */
     public Commande nextCommande() {
         String ligne = scanner.nextLine().trim();
+        if (ligne.equals("quit")) {
+            return new Quitter();
+        }
         if (ligne.startsWith("add ")) {
             String[] parties = ligne.split("\\s+");
 
