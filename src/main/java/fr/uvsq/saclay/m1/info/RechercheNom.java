@@ -24,6 +24,12 @@ public class RechercheNom implements Commande {
      */
     @Override
     public Object execute() {
-        return dns.getItem(adresseIP);
+        DnsItem item = dns.getItem(adresseIP);
+
+        if (item == null) {
+            return null;
+        }
+
+        return item.getNomMachine();
     }
 }

@@ -30,6 +30,8 @@ class RechercheNomTest {
                 dns,
                 new AdresseIP("192.168.0.1"));
 
-        assertEquals(item, commande.execute());
+        assertEquals(
+                new NomMachine("machine.domaine.local"),
+                commande.execute());
     }
 }
