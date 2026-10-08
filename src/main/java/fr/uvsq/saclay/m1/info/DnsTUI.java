@@ -19,4 +19,30 @@ public class DnsTUI {
         this.dns = dns;
         this.scanner = new Scanner(System.in);
     }
+    /**
+     * Construit l'interface utilisateur avec un scanner donné.
+     *
+     * @param dns la base DNS
+     * @param scanner le scanner utilisé pour lire les commandes
+     */
+    public DnsTUI(Dns dns, Scanner scanner) {
+        this.dns = dns;
+        this.scanner = scanner;
+    }
+    /**
+     * Lit la prochaine commande saisie par l'utilisateur.
+     *
+     * @return la commande correspondante
+     */
+    public Commande nextCommande() {
+        String ligne = scanner.nextLine().trim();
+
+        if (ligne.matches("\\d+\\.\\d+\\.\\d+\\.\\d+")) {
+            return new RechercheNom(
+                    dns,
+                    new AdresseIP(ligne));
+        }
+
+        return null;
+    }
 }
