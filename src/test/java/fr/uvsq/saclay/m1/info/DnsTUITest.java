@@ -166,9 +166,9 @@ class DnsTUITest {
         System.setOut(ancienneSortie);
 
         assertEquals(
-                "193.51.25.12 ecampus.uvsq.fr"
+                "ecampus.uvsq.fr 193.51.25.12"
                         + System.lineSeparator()
-                        + "193.51.31.90 www.uvsq.fr"
+                        + "www.uvsq.fr 193.51.31.90"
                         + System.lineSeparator(),
                 sortie.toString(StandardCharsets.UTF_8));
     }
