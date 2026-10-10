@@ -82,8 +82,8 @@ public class Dns {
                             "Ligne invalide dans la base DNS : " + ligne);
                 }
 
-                AdresseIP adresseIP = new AdresseIP(parties[0]);
-                NomMachine nomMachine = new NomMachine(parties[1]);
+                NomMachine nomMachine = new NomMachine(parties[0]);
+                AdresseIP adresseIP = new AdresseIP(parties[1]);
 
                 items.add(new DnsItem(adresseIP, nomMachine));
             }

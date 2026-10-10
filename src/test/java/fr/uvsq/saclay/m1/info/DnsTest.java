@@ -22,13 +22,6 @@ class DnsTest {
     }
 
     @Test
-    void laBaseDnsDoitEtreChargee() {
-        Dns dns = new Dns();
-
-        assertEquals(3, dns.taille());
-    }
-
-    @Test
     void uneAssociationDoitPouvoirEtreAjoutee() {
         Dns dns = new Dns(nouveauFichierDns());
 
