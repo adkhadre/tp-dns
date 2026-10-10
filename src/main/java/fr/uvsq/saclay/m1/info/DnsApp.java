@@ -20,6 +20,7 @@ public class DnsApp {
      * Lance l'application.
      */
     public void run() {
+        tui.afficheAide();
         boolean continuer = true;
 
         while (continuer) {
