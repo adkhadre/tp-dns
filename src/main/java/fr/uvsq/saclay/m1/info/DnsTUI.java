@@ -1,7 +1,7 @@
 package fr.uvsq.saclay.m1.info;
 
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Interface utilisateur textuelle du DNS.
@@ -20,6 +20,7 @@ public class DnsTUI {
         this.dns = dns;
         this.scanner = new Scanner(System.in);
     }
+
     /**
      * Construit l'interface utilisateur avec un scanner donné.
      *
@@ -30,16 +31,42 @@ public class DnsTUI {
         this.dns = dns;
         this.scanner = scanner;
     }
+
+    /**
+     * Affiche l'aide de l'application.
+     */
+    public void afficheAide() {
+        System.out.println("========================================");
+        System.out.println("           DNS - Gestionnaire");
+        System.out.println("========================================");
+        System.out.println();
+        System.out.println("Commandes disponibles :");
+        System.out.println();
+        System.out.println("  <adresse IP>                 Rechercher le nom");
+        System.out.println("  <nom.qualifie>               Rechercher l'adresse IP");
+        System.out.println("  ls <domaine>                 Lister les machines du domaine");
+        System.out.println("  ls -a <domaine>              Lister par adresse IP");
+        System.out.println("  add <IP> <nom.qualifie>      Ajouter une machine");
+        System.out.println("  quit                         Quitter");
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println();
+    }
+
     /**
      * Lit la prochaine commande saisie par l'utilisateur.
      *
      * @return la commande correspondante
      */
     public Commande nextCommande() {
+        System.out.print("> ");
+
         String ligne = scanner.nextLine().trim();
+
         if (ligne.equals("quit")) {
             return new Quitter();
         }
+
         if (ligne.startsWith("add ")) {
             String[] parties = ligne.split("\\s+");
 
@@ -83,6 +110,7 @@ public class DnsTUI {
 
         return null;
     }
+
     /**
      * Affiche le résultat d'une commande.
      *
