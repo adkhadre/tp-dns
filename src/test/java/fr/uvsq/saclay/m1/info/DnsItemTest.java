@@ -74,7 +74,7 @@ class DnsItemTest {
                 new NomMachine("machine.domaine.local"));
 
         assertEquals(
-                "192.168.0.1 machine.domaine.local",
+                "machine.domaine.local 192.168.0.1",
                 item.toString());
     }
 }

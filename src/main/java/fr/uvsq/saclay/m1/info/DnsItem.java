@@ -33,7 +33,7 @@ public class DnsItem {
 
     @Override
     public String toString() {
-        return adresseIP + " " + nomMachine;
+        return nomMachine + " " + adresseIP;
     }
 
     @Override
