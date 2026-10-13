@@ -47,8 +47,6 @@
                         <version>14.3.0</version>
                     </dependency>
                 </dependencies>
-                <!-- Checkstyle temporairement désactivé pendant le développement -->
-                <!--
                 <executions>
                     <execution>
                         <id>validate</id>
@@ -58,7 +56,6 @@
                         </goals>
                     </execution>
                 </executions>
-                -->
             </plugin>
         </plugins>
     </build>
