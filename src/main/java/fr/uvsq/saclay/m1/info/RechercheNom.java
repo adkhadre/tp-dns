@@ -32,4 +32,5 @@ public class RechercheNom implements Commande {
 
         return item.getNomMachine();
     }
+
 }
