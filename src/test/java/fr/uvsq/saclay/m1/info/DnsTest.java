@@ -5,212 +5,170 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Path;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-/**
- * Tests de la classe Dns.
- */
+/** Tests de la classe Dns. */
 class DnsTest {
 
-    @TempDir
-    Path dossierTemporaire;
+  @TempDir Path dossierTemporaire;
 
-    private Path nouveauFichierDns() {
-        return dossierTemporaire.resolve("dns.txt");
-    }
+  private Path nouveauFichierDns() {
+    return dossierTemporaire.resolve("dns.txt");
+  }
 
-    @Test
-    void uneAssociationDoitPouvoirEtreAjoutee() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void uneAssociationDoitPouvoirEtreAjoutee() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        DnsItem item = new DnsItem(
-                new AdresseIP("192.168.0.10"),
-                new NomMachine("machine.test.local"));
+    DnsItem item = new DnsItem(new AdresseIp("192.168.0.10"), new NomMachine("machine.test.local"));
 
-        dns.addItem(item);
+    dns.addItem(item);
 
-        assertEquals(1, dns.taille());
-    }
+    assertEquals(1, dns.taille());
+  }
 
-    @Test
-    void uneAdresseIPDejaExistanteDoitEtreRefusee() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void uneAdresseIpDejaExistanteDoitEtreRefusee() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local")));
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> dns.addItem(new DnsItem(
-                        new AdresseIP("192.168.0.1"),
-                        new NomMachine("autre.domaine.local"))));
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            dns.addItem(
+                new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("autre.domaine.local"))));
+  }
 
-    @Test
-    void unNomMachineDejaExistantDoitEtreRefuse() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void unNomMachineDejaExistantDoitEtreRefuse() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local")));
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> dns.addItem(new DnsItem(
-                        new AdresseIP("192.168.0.2"),
-                        new NomMachine("machine.domaine.local"))));
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            dns.addItem(
+                new DnsItem(
+                    new AdresseIp("192.168.0.2"), new NomMachine("machine.domaine.local"))));
+  }
 
-    @Test
-    void uneAssociationAvecIPEtNomDifferentsDoitEtreAcceptee() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void uneAssociationAvecIpEtNomDifferentsDoitEtreAcceptee() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local")));
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.2"),
-                new NomMachine("autre.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.2"), new NomMachine("autre.domaine.local")));
 
-        assertEquals(2, dns.taille());
-    }
+    assertEquals(2, dns.taille());
+  }
 
-    @Test
-    void rechercheParAdresseIPDoitRetournerLeBonItem() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void rechercheParAdresseIpDoitRetournerLeBonItem() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        DnsItem item = new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local"));
+    DnsItem item =
+        new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local"));
 
-        dns.addItem(item);
+    dns.addItem(item);
 
-        assertEquals(
-                item,
-                dns.getItem(new AdresseIP("192.168.0.1")));
-    }
+    assertEquals(item, dns.getItem(new AdresseIp("192.168.0.1")));
+  }
 
-    @Test
-    void rechercheParNomMachineDoitRetournerLeBonItem() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void rechercheParNomMachineDoitRetournerLeBonItem() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        DnsItem item = new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local"));
+    DnsItem item =
+        new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local"));
 
-        dns.addItem(item);
+    dns.addItem(item);
 
-        assertEquals(
-                item,
-                dns.getItem(new NomMachine("machine.domaine.local")));
-    }
+    assertEquals(item, dns.getItem(new NomMachine("machine.domaine.local")));
+  }
 
-    @Test
-    void rechercheParAdresseIPInconnueDoitRetournerNull() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void rechercheParAdresseIpInconnueDoitRetournerNull() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local")));
 
-        assertEquals(
-                null,
-                dns.getItem(new AdresseIP("192.168.0.2")));
-    }
+    assertEquals(null, dns.getItem(new AdresseIp("192.168.0.2")));
+  }
 
-    @Test
-    void rechercheParNomMachineInconnuDoitRetournerNull() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void rechercheParNomMachineInconnuDoitRetournerNull() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("machine.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("machine.domaine.local")));
 
-        assertEquals(
-                null,
-                dns.getItem(new NomMachine("autre.domaine.local")));
-    }
+    assertEquals(null, dns.getItem(new NomMachine("autre.domaine.local")));
+  }
 
-    @Test
-    void rechercheParDomaineDoitRetournerLesBonnesAssociations() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void rechercheParDomaineDoitRetournerLesBonnesAssociations() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        DnsItem item1 = new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("www.domaine.local"));
+    DnsItem item1 = new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("www.domaine.local"));
 
-        DnsItem item2 = new DnsItem(
-                new AdresseIP("192.168.0.2"),
-                new NomMachine("mail.domaine.local"));
+    DnsItem item2 = new DnsItem(new AdresseIp("192.168.0.2"), new NomMachine("mail.domaine.local"));
 
-        DnsItem item3 = new DnsItem(
-                new AdresseIP("192.168.0.3"),
-                new NomMachine("pc.autre.fr"));
+    DnsItem item3 = new DnsItem(new AdresseIp("192.168.0.3"), new NomMachine("pc.autre.fr"));
 
-        dns.addItem(item1);
-        dns.addItem(item2);
-        dns.addItem(item3);
+    dns.addItem(item1);
+    dns.addItem(item2);
+    dns.addItem(item3);
 
-        List<DnsItem> resultat = dns.getItems("domaine.local");
+    List<DnsItem> resultat = dns.getItems("domaine.local");
 
-        assertEquals(2, resultat.size());
-        assertEquals(item2, resultat.get(0));
-        assertEquals(item1, resultat.get(1));
-    }
+    assertEquals(2, resultat.size());
+    assertEquals(item2, resultat.get(0));
+    assertEquals(item1, resultat.get(1));
+  }
 
-    @Test
-    void rechercheParDomaineInconnuDoitRetournerUneListeVide() {
-        Dns dns = new Dns(nouveauFichierDns());
+  @Test
+  void rechercheParDomaineInconnuDoitRetournerUneListeVide() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(new DnsItem(
-                new AdresseIP("192.168.0.1"),
-                new NomMachine("www.domaine.local")));
+    dns.addItem(new DnsItem(new AdresseIp("192.168.0.1"), new NomMachine("www.domaine.local")));
 
-        List<DnsItem> resultat = dns.getItems("inconnu.local");
+    List<DnsItem> resultat = dns.getItems("inconnu.local");
 
-        assertEquals(0, resultat.size());
-    }
-    @Test
-    void uneAssociationAjouteeDoitEtreSauvegardeeDansLeFichier() {
-        Dns dns = new Dns(nouveauFichierDns());
+    assertEquals(0, resultat.size());
+  }
 
-        DnsItem item = new DnsItem(
-                new AdresseIP("192.168.0.10"),
-                new NomMachine("machine.test.local"));
+  @Test
+  void uneAssociationAjouteeDoitEtreSauvegardeeDansLeFichier() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(item);
+    DnsItem item = new DnsItem(new AdresseIp("192.168.0.10"), new NomMachine("machine.test.local"));
 
-        Dns dnsRecharge = new Dns(nouveauFichierDns());
+    dns.addItem(item);
 
-        assertEquals(1, dnsRecharge.taille());
-        assertEquals(
-                item,
-                dnsRecharge.getItem(new AdresseIP("192.168.0.10")));
-    }
-    @Test
-    void rechercheParDomaineAvecTriParAdresseIP() {
-        Dns dns = new Dns(nouveauFichierDns());
+    Dns dnsRecharge = new Dns(nouveauFichierDns());
 
-        DnsItem item1 = new DnsItem(
-                new AdresseIP("192.168.0.10"),
-                new NomMachine("www.domaine.local"));
+    assertEquals(1, dnsRecharge.taille());
+    assertEquals(item, dnsRecharge.getItem(new AdresseIp("192.168.0.10")));
+  }
 
-        DnsItem item2 = new DnsItem(
-                new AdresseIP("192.168.0.2"),
-                new NomMachine("mail.domaine.local"));
+  @Test
+  void rechercheParDomaineAvecTriParAdresseIp() {
+    Dns dns = new Dns(nouveauFichierDns());
 
-        dns.addItem(item1);
-        dns.addItem(item2);
+    DnsItem item1 = new DnsItem(new AdresseIp("192.168.0.10"), new NomMachine("www.domaine.local"));
 
-        List<DnsItem> resultat =
-                dns.getItems("domaine.local", true);
+    DnsItem item2 = new DnsItem(new AdresseIp("192.168.0.2"), new NomMachine("mail.domaine.local"));
 
-        assertEquals(2, resultat.size());
-        assertEquals(item2, resultat.get(0));
-        assertEquals(item1, resultat.get(1));
-    }
+    dns.addItem(item1);
+    dns.addItem(item2);
+
+    List<DnsItem> resultat = dns.getItems("domaine.local", true);
+
+    assertEquals(2, resultat.size());
+    assertEquals(item2, resultat.get(0));
+    assertEquals(item1, resultat.get(1));
+  }
 }

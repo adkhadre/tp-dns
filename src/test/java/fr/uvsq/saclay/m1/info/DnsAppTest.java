@@ -6,73 +6,66 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Scanner;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-/**
- * Tests de l'application DNS.
- */
+/** Tests de l'application DNS. */
 class DnsAppTest {
 
-    @TempDir
-    Path dossierTemporaire;
+  @TempDir Path dossierTemporaire;
 
-    @Test
-    void runDoitExecuterLesCommandes() {
-        Path fichierDns = dossierTemporaire.resolve("dns.txt");
+  @Test
+  void runDoitExecuterLesCommandes() {
+    Path fichierDns = dossierTemporaire.resolve("dns.txt");
 
-        Dns dns = new Dns(fichierDns);
+    Dns dns = new Dns(fichierDns);
 
-        Scanner scanner = new Scanner(
-                "add 192.168.0.10 test.domaine.local\n"
-                        + "test.domaine.local\n"
-                        + "quit\n");
+    Scanner scanner =
+        new Scanner("add 192.168.0.10 test.domaine.local\n" + "test.domaine.local\n" + "quit\n");
 
-        DnsTUI tui = new DnsTUI(dns, scanner);
-        DnsApp app = new DnsApp(tui);
+    DnsTui tui = new DnsTui(dns, scanner);
+    DnsApp app = new DnsApp(tui);
 
-        ByteArrayOutputStream sortie = new ByteArrayOutputStream();
-        PrintStream ancienneSortie = System.out;
+    ByteArrayOutputStream sortie = new ByteArrayOutputStream();
+    PrintStream ancienneSortie = System.out;
 
-        System.setOut(new PrintStream(sortie));
+    System.setOut(new PrintStream(sortie));
 
-        try {
-            app.run();
-        } finally {
-            System.setOut(ancienneSortie);
-        }
-
-        assertTrue(
-                sortie.toString().contains("192.168.0.10"));
+    try {
+      app.run();
+    } finally {
+      System.setOut(ancienneSortie);
     }
-    @Test
-    void runDoitAfficherUneErreurSiLeNomExisteDeja() {
-        Path fichierDns = dossierTemporaire.resolve("dns.txt");
 
-        Dns dns = new Dns(fichierDns);
+    assertTrue(sortie.toString().contains("192.168.0.10"));
+  }
 
-        Scanner scanner = new Scanner(
-                "add 192.168.0.10 test.domaine.local\n"
-                        + "add 192.168.0.20 test.domaine.local\n"
-                        + "quit\n");
+  @Test
+  void runDoitAfficherUneErreurSiLeNomExisteDeja() {
+    Path fichierDns = dossierTemporaire.resolve("dns.txt");
 
-        DnsTUI tui = new DnsTUI(dns, scanner);
-        DnsApp app = new DnsApp(tui);
+    Dns dns = new Dns(fichierDns);
 
-        ByteArrayOutputStream sortie = new ByteArrayOutputStream();
-        PrintStream ancienneSortie = System.out;
+    Scanner scanner =
+        new Scanner(
+            "add 192.168.0.10 test.domaine.local\n"
+                + "add 192.168.0.20 test.domaine.local\n"
+                + "quit\n");
 
-        System.setOut(new PrintStream(sortie));
+    DnsTui tui = new DnsTui(dns, scanner);
+    DnsApp app = new DnsApp(tui);
 
-        try {
-            app.run();
-        } finally {
-            System.setOut(ancienneSortie);
-        }
+    ByteArrayOutputStream sortie = new ByteArrayOutputStream();
+    PrintStream ancienneSortie = System.out;
 
-        assertTrue(
-                sortie.toString().contains(
-                        "ERREUR : Ce nom de machine existe déjà !"));
+    System.setOut(new PrintStream(sortie));
+
+    try {
+      app.run();
+    } finally {
+      System.setOut(ancienneSortie);
     }
+
+    assertTrue(sortie.toString().contains("ERREUR : Ce nom de machine existe déjà !"));
+  }
 }

@@ -67,14 +67,14 @@ ERREUR : Le nom de machine existe déjà !
 * Le nom du fichier devra être stocké dans un fichier de propriétés (cf. http://docs.oracle.com/javase/tutorial/essential/environment/properties.html[Tutoriel sur les propriétés]).
 ====
 
-. Réaliser les classes `AdresseIP`, `NomMachine` et `DnsItem` qui représentent respectivement une adresse IP, un nom qualifié de machine et une entrée du DNS.
+. Réaliser les classes `AdresseIp`, `NomMachine` et `DnsItem` qui représentent respectivement une adresse IP, un nom qualifié de machine et une entrée du DNS.
 . Réaliser la classe `Dns` qui proposera les opérations suivantes:
 ** un constructeur qui chargera la base de données,
 ** deux méthodes `getItem` qui retourneront une instance de `DnsItem` soit à partir d'une adresse IP, soit à partir d'un nom de machine,
 ** une méthode `getItems` qui retournera une liste d'items à partir d'un nom de domaine,
 ** une méthode `addItem` qui prend une adresse et un nom de machine pour les ajouter à la base de données.
 Une exception est levée en cas d'erreur.
-. Réaliser la classe `DnsTUI` qui se chargera des interactions avec l'utilisateur.
+. Réaliser la classe `DnsTui` qui se chargera des interactions avec l'utilisateur.
 Cette classe fournira une méthode `nextCommande` qui analysera le texte saisi par l'utilisateur et retournera un objet implémentant l'interface `Commande` (cf. question suivante) et une méthode `affiche` qui affichera un résultat.
 . Les commandes DNS seront implémentées à l'aide du modèle de conception http://en.wikipedia.org/wiki/Command_pattern[Commande].
 ** créer l'interface `Commande` comportant une seule méthode `execute`,

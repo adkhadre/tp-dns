@@ -4,15 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests de la commande Quitter.
- */
+/** Tests de la commande Quitter. */
 class QuitterTest {
 
-    @Test
-    void quitterDoitRetournerVrai() {
-        Commande commande = new Quitter();
+  @Test
+  void quitterDoitRetournerVrai() {
+    Commande commande = new Quitter();
 
-        assertEquals(true, commande.execute());
-    }
+    assertEquals(true, commande.execute());
+  }
 }
